@@ -1,26 +1,27 @@
 package com.testvagrant.weather.utils;
+
 public class TemperatureVariance {
 
-    public double getTempertureVariance(){
-        double[] data = {23,24};
+    public static double getTemperatureVariance(double ndtvTemp, double openWeatherapiTemp) {
+        double[] data = {ndtvTemp, openWeatherapiTemp};
         // The mean average
         double mean = 0.0;
-        for (int i = 0; i < data.length; i++) {
+        for (double datum : data) {
             //mean = mean+data[i];
-            mean += data[i];
+            mean += datum;
         }
         mean /= data.length;
 
 // The variance
         double variance = 0;
-        for (int i = 0; i < data.length; i++) {
-            variance += (data[i] - mean) * (data[i] - mean);
+        for (double datum : data) {
+            variance += (datum - mean) * (datum - mean);
         }
         variance /= data.length;
-        System.out.println("variance : "+variance);
+        System.out.println("variance : " + variance);
 // Standard Deviation
         double std = Math.sqrt(variance);
-        System.out.println("Standard Deviation : "+std);
-            return 0.00;
+        System.out.println("Standard Deviation : " + std);
+        return variance;
     }
 }

@@ -8,6 +8,7 @@ import io.restassured.specification.RequestSpecification;
 public class RestAssuredCommonActions {
     RequestSpecification requestSpecification;
     Response response = null;
+    public static double celsiusTemp = 0.0;
 
     public RequestSpecification getRequestSpecification(String url) {
         RestAssured.baseURI = url;
@@ -25,9 +26,10 @@ public class RestAssuredCommonActions {
         response = requestSpecification.request(Method.GET, uri);
         return response;
     }
-    public float temperatureConverter(float kelvinTemp){
-        float celsiusTemp = (float) (kelvinTemp- 273.15);
+
+    public double temperatureConverter(float kelvinTemp) {
+        celsiusTemp = (float) (kelvinTemp - 273.15);
+
         return celsiusTemp;
     }
-
 }
