@@ -86,7 +86,6 @@ public class NdtvWeatherPageObject extends WebDriverInitialization {
         //writing the json file
         commonFunctionality.writeJsonFileForCityDtaa(weatherCityBean);
     }
-
     public boolean validateCityWeather() {
         System.out.println("Weather Report: " + getCityWeatherElement.getText());
         return getCityWeatherElement.isDisplayed();

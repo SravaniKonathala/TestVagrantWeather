@@ -21,4 +21,6 @@ public interface Constants {
     final static String OPEN_WEATHER = "openweather";
     final static String CITY = "city";
     final static String TEMP = "temp";
+    final static String READ_JSON_FILE_PATH = "src/test/java/com/testvagrant/weather/resource/sample.json";
+    final static int MAX_VARIANCE_VALUE = 2;
 }
