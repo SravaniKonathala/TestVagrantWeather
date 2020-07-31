@@ -16,11 +16,16 @@ public interface Constants {
     final static String CITY_TEMP_XPATH = "//b[contains(text(),'Temp in Degrees')]";
     final static String CITY_TEMP_DYN_XPATH = "//b[contains(text(),'Temp in Degrees')]";
     final static String RESOURCE_ROOT_PATH = "src/test/java/com/testvagrant/weather/resource/";
-    final static String JSON_FILE_NAME = "cityTem.json";
-    final static String NDTV = "ndtv";
-    final static String OPEN_WEATHER = "openweather";
+    final static String JSON_FILE_NAME = "temperatureDataFile.json";
+    final static String NDTV_SOURCE = "ndtv";
+    final static String OPEN_WEATHER_SOURCE = "open_weather";
     final static String CITY = "city";
     final static String TEMP = "temp";
-    final static String READ_JSON_FILE_PATH = "src/test/java/com/testvagrant/weather/resource/sample.json";
+    final static String JSON_DATA_FILE_PATH = "src/test/java/com/testvagrant/weather/resource/temperatureDataFile.json";
     final static int MAX_VARIANCE_VALUE = 2;
+    final static String UNDER_LINE ="_";
+    final static String X_API_KEY ="x-api-key";
+    final static String WEATHER_URI = "weather_uri";
+    final static String CONTENT_TYPE = "contentType";
+    final static String Q = "q";
 }

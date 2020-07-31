@@ -9,6 +9,12 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 public class WebDriverInitialization {
     public static WebDriver driver;
 
+    /*
+    * @method: initializeBrowser
+    * @Description: Initialize the Driver
+    * @param: browserType
+    * @Description: type of browser(eg: chrome, firefox...)
+    * */
     public static void initializeBrowser(String browserType) {
         if (browserType.equalsIgnoreCase(Constants.CHROME)) {
             WebDriverManager.chromedriver().setup();

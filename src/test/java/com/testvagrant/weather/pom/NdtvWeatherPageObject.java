@@ -1,15 +1,13 @@
 package com.testvagrant.weather.pom;
 
-import com.testvagrant.weather.bean.WeatherCityBean;
 import com.testvagrant.weather.utils.CommonFunctionality;
 import com.testvagrant.weather.utils.Constants;
+import com.testvagrant.weather.utils.JsonUtils;
 import com.testvagrant.weather.utils.WebDriverInitialization;
-import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import java.io.IOException;
-import java.util.Objects;
 
 public class NdtvWeatherPageObject extends WebDriverInitialization {
 
@@ -27,17 +25,27 @@ public class NdtvWeatherPageObject extends WebDriverInitialization {
     @FindBy(xpath = Constants.CITY_WEATHER)
     WebElement getCityWeatherElement;
 
-    // Select the browser and launch the application in required browser
-
+    /*
+    * @method: launchBrowser
+    * @Description: launch the specified browser
+    * @param: browserType
+    * @Description: Type of the browser to be launched
+    * */
     public void launchBrowser(String browserType) {
         WebDriverInitialization.initializeBrowser(browserType);
         PageFactory.initElements(driver,this);
     }
-
-    public void launchApplication() throws IOException {
+    /*
+    * @method: launchApplication
+    * @Description: launch the web application
+    * */
+    public void launchApplication() {
         driver.get(commonFunctionality.readDataFile().getProperty("url"));
     }
-
+    /*
+    * @method: clickOnWeather
+    * @Description: Extend the header and click on "Weather" option
+    * */
     public void clickOnWeather() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", subMenu);
@@ -45,8 +53,9 @@ public class NdtvWeatherPageObject extends WebDriverInitialization {
     }
 
     /*
-     Enter the city name in "Pin your City" field in the left of the screen
-     */
+     *@method: enterCityName
+     * @Description: Enter the city name in "Pin your City" field in the left of the screen and click on city
+    */
     public void enterCityName(String cityName) {
         commonFunctionality.explicitSendValue(giveCityName, driver, Constants.EXPLICIT_WAIT_VALUE, cityName);
         giveCityName.sendKeys(Keys.ENTER);
@@ -58,43 +67,51 @@ public class NdtvWeatherPageObject extends WebDriverInitialization {
         }else{
             cityDynPath.click();
         }
-
-
     }
     /*
-
+     *@method: getCityWeather
+     * @Description: get the weather of the city specified and store the temperature in json data file
+     * @param: cityName
+     * @Description: temperature of city(Bangalore, Hyderabad..)
      */
-    public void getCityWeather(String cityName) throws IOException, ParseException {
-        WeatherCityBean weatherCityBean;
+    public void getCityWeather(String cityName){
         String cityWeatherDynXpath="//div[contains(text(),'"+cityName+"')]";
+        JsonUtils jsonUtils = new JsonUtils();
         WebElement cityWeatherDynXpathElement= driver.findElement(By.xpath(cityWeatherDynXpath));
-        cityWeatherDynXpathElement.click();
+        commonFunctionality.clickElement(cityWeatherDynXpathElement,driver,10);
 
-        //get the temputure from NDTV web application
+        //get the temperature from NDTV web application
         String cityTempXPath = "//b[contains(text(),'Temp in Degrees')]";
         WebElement cityTempElement = driver.findElement(By.xpath(cityTempXPath));
+
         //set the required data into bean for writing the new Json input file
-        weatherCityBean = new WeatherCityBean();
-        weatherCityBean.setCityName(cityName);
-        weatherCityBean.setSource(Constants.NDTV);
         String temperatureString = cityTempElement.getText();
-        System.out.println("temperatureString : "+temperatureString);
-        //if(temperatureString != null || !temperatureString.isEmpty()){
-        if(temperatureString != null || !Objects.requireNonNull(temperatureString).isEmpty()){
-            weatherCityBean.setTemp(Double.parseDouble(temperatureString.substring(temperatureString.lastIndexOf(":")+1).trim()));
-        }
-        //writing the json file
-        commonFunctionality.writeJsonFileForCityDtaa(weatherCityBean);
+        System.out.println("temperature: "+temperatureString);
+        double temp = Double.parseDouble(temperatureString.substring(temperatureString.indexOf(":")+1).trim());
+
+        //update the temperature into data json file
+        jsonUtils.prepareDataJsonObject(Constants.NDTV_SOURCE,cityName,temp);
     }
+    /*
+    * @method: validateCityWeather
+    * @Description: Validate weather of a city is displayed in the list
+    * */
     public boolean validateCityWeather() {
         System.out.println("Weather Report: " + getCityWeatherElement.getText());
         return getCityWeatherElement.isDisplayed();
     }
-
+    /*
+    * @method: takeScreenShot
+    * @Description: Take a screen shot of a success scenario
+    * */
     public void takeScreenShot() throws IOException {
         commonFunctionality.screenShot(driver);
     }
 
+    /*
+    * @method: quitBrowser
+    * @Description: Quit the launched browser
+    * */
     public void quitBrowser() {
         driver.quit();
     }

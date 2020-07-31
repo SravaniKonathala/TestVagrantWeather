@@ -18,21 +18,13 @@ public class NdtvWeatherStepDef {
 
     @Given("^I launch the web browser$")
     public void i_launch_the_web_browser() {
-        try {
-            commonFunctionality = new CommonFunctionality();
-            ndtvWeatherPageObject.launchBrowser(commonFunctionality.readDataFile().getProperty(Constants.BROWSER_Type));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        commonFunctionality = new CommonFunctionality();
+        ndtvWeatherPageObject.launchBrowser(commonFunctionality.readDataFile().getProperty(Constants.BROWSER_Type));
     }
 
     @Given("^I launch the application$")
     public void i_launch_the_application() {
-        try {
-            ndtvWeatherPageObject.launchApplication();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ndtvWeatherPageObject.launchApplication();
     }
 
     @When("^I extend the header and click on weather$")
@@ -48,8 +40,7 @@ public class NdtvWeatherStepDef {
 
     @Then("^I validate weather condition of city on the map$")
     public void i_validate_weather_condition_of_city_on_the_map() throws Throwable {
-        boolean value = ndtvWeatherPageObject.validateCityWeather();
-        Assert.assertTrue(value);
+        Assert.assertTrue(ndtvWeatherPageObject.validateCityWeather());
         ndtvWeatherPageObject.takeScreenShot();
     }
 
